@@ -7,94 +7,129 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
+/* Basic reset */
+* { box-sizing: border-box; margin:0; padding:0; }
+
+/* Body */
 body {
-  margin:0; padding:0;
-  font-family:'Press Start 2P', cursive;
-  background-color:#000; color:#fff; overflow:hidden;
+    background: #000;
+    font-family: 'Press Start 2P', cursive;
+    color: red;
+    overflow: hidden;
 }
 
-/* Title */
-.title-container {
-  text-align:center; margin-top:50px;
+/* Titles */
+.title-container { text-align: center; margin-top: 50px; }
+.title {
+    font-size: 90px;
+    color: red;
+    text-shadow: 0 0 5px #ff0000,0 0 10px #ff0000,0 0 20px #ff0000,0 0 40px #ff0000;
 }
-.title { font-size:80px; color:red;
-  text-shadow:0 0 5px red,0 0 10px red,0 0 20px red,0 0 40px red;
-}
-.subtitle { font-size:50px; color:red;
-  text-shadow:0 0 5px red,0 0 10px red,0 0 20px red;
-  transform: rotate(-15deg);
-  display:inline-block; margin-top:-20px;
+.subtitle {
+    font-size: 60px;
+    color: red;
+    text-shadow: 0 0 5px #ff0000,0 0 10px #ff0000,0 0 20px #ff0000;
+    display: inline-block;
+    transform: rotate(-15deg); /* counter-clockwise tilt */
+    margin-top: -20px;
+    font-family: monospace;
 }
 
-/* Menu Buttons */
+/* Buttons */
 .button-container {
-  text-align:center; margin-top:50px;
+    text-align: center;
+    margin-top: 50px;
 }
 .btn {
-  background:black; color:red;
-  border:2px solid red; padding:15px 40px;
-  font-size:20px; margin:0 10px; cursor:pointer;
-  transition:all 0.2s;
+    background: black;
+    color: red;
+    border: 2px solid red;
+    padding: 15px 40px;
+    font-size: 20px;
+    margin: 0 10px;
+    cursor: pointer;
+    transition: all 0.2s;
 }
 .btn:hover { background:red; color:black; }
 
 /* Pages */
-.page { display:none; width:100%; height:100vh; background:black; color:red; overflow:auto; position:relative; padding:20px; box-sizing:border-box; }
+.page { display:none; width:100%; height:100vh; background:black; color:red; overflow:auto; padding:20px; position:relative; }
 
 /* Close button */
-.close-btn { position:absolute; top:20px; right:20px; background:black; color:red; border:2px solid red; padding:10px 15px; cursor:pointer; z-index:1001; font-size:16px; }
+.close-btn {
+    position:absolute;
+    top:20px;
+    right:20px;
+    background:black;
+    color:red;
+    border:2px solid red;
+    padding:10px 15px;
+    cursor:pointer;
+    z-index:1001;
+}
 
-/* Games */
+/* Games page */
 #gameSearch { display:block; margin:20px auto; padding:10px; width:300px; background:black; color:red; border:2px solid red; font-size:16px; }
 .game-container { display:flex; flex-wrap:wrap; justify-content:center; gap:20px; margin-top:20px; }
 .game-btn { background:black; border:2px solid red; padding:10px; width:150px; text-align:center; cursor:pointer; transition:all 0.2s; }
 .game-btn img { width:100%; height:auto; }
 .game-btn:hover { border-color:#ff5555; }
 
-/* Browser */
+/* Browser page */
 #browserPage input { width:70%; padding:10px; font-size:16px; background:black; color:red; border:2px solid red; margin-bottom:10px; }
 #browserPage button { padding:10px 20px; font-size:16px; background:black; color:red; border:2px solid red; cursor:pointer; }
 
-/* Fullscreen overlay for games/browser */
-#overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:black; z-index:1000; overflow:auto; }
+/* Overlay for full-screen game/browser */
+#overlay {
+    display:none;
+    position:fixed;
+    top:0; left:0;
+    width:100%;
+    height:100%;
+    background:black;
+    z-index:1000;
+    overflow:auto;
+}
 #overlay iframe { width:100%; height:100%; border:none; }
 #overlayContent { width:100%; height:100%; border:none; }
 </style>
 </head>
 <body>
 
+<!-- Main Menu -->
 <div class="title-container">
-  <div class="title">DARE TO GAME</div>
-  <div class="subtitle">REBOOTED</div>
+    <div class="title">DARE TO GAME</div>
+    <div class="subtitle">REBOOTED</div>
 </div>
 
 <div class="button-container">
-  <button class="btn" id="gamesBtn">Games</button>
-  <button class="btn" id="browserBtn">Browser</button>
+    <button class="btn" id="gamesBtn">Games</button>
+    <button class="btn" id="browserBtn">Browser</button>
 </div>
 
 <!-- Games Page -->
 <div id="gamesPage" class="page">
-  <button class="close-btn" id="closeGames">X</button>
-  <input type="text" id="gameSearch" placeholder="Search Games...">
-  <div class="game-container" id="gameContainer"></div>
+    <button class="close-btn" id="closeGames">X</button>
+    <input type="text" id="gameSearch" placeholder="Search Games...">
+    <div class="game-container" id="gameContainer"></div>
 </div>
 
 <!-- Browser Page -->
 <div id="browserPage" class="page">
-  <button class="close-btn" id="closeBrowser">X</button>
-  <h1>Search the Unblocked Web</h1>
-  <input type="text" id="urlInput" placeholder="Enter URL here">
-  <button id="searchButton">Search</button>
+    <button class="close-btn" id="closeBrowser">X</button>
+    <h1>Search the Unblocked Web</h1>
+    <input type="text" id="urlInput" placeholder="Enter URL here">
+    <button id="searchButton">Search</button>
 </div>
 
-<!-- Fullscreen overlay -->
+<!-- Overlay for full-screen content -->
 <div id="overlay">
-  <button class="close-btn" id="closeOverlay">X</button>
-  <iframe id="overlayFrame"></iframe>
+    <button class="close-btn" id="closeOverlay">X</button>
+    <iframe id="overlayFrame"></iframe>
 </div>
 
 <script>
+// Menu navigation
 const gamesBtn = document.getElementById('gamesBtn');
 const browserBtn = document.getElementById('browserBtn');
 const gamesPage = document.getElementById('gamesPage');
@@ -106,53 +141,48 @@ const closeGames = document.getElementById('closeGames');
 const closeBrowser = document.getElementById('closeBrowser');
 const closeOverlay = document.getElementById('closeOverlay');
 
-// Menu navigation
-gamesBtn.onclick = ()=> { gamesPage.style.display='block'; browserPage.style.display='none'; };
-browserBtn.onclick = ()=> { browserPage.style.display='block'; gamesPage.style.display='none'; };
-closeGames.onclick = ()=> { gamesPage.style.display='none'; };
-closeBrowser.onclick = ()=> { browserPage.style.display='none'; };
-closeOverlay.onclick = ()=> { overlay.style.display='none'; overlayFrame.src=''; };
+gamesBtn.onclick = () => { gamesPage.style.display='block'; browserPage.style.display='none'; };
+browserBtn.onclick = () => { browserPage.style.display='block'; gamesPage.style.display='none'; };
+closeGames.onclick = ()=>{ gamesPage.style.display='none'; };
+closeBrowser.onclick = ()=>{ browserPage.style.display='none'; };
+closeOverlay.onclick = ()=>{ overlay.style.display='none'; overlayFrame.src=''; };
 
-// Fetch Games JSON
+// Fetch games JSON
 const gameContainer = document.getElementById('gameContainer');
 fetch('https://raw.githubusercontent.com/GLITCHED-OVERRIDE/Hypper-Drive-2/refs/heads/main/Games/Zones.json')
-.then(res=>res.json())
-.then(data=>{
-  data.forEach(game=>{
-    const btn=document.createElement('div');
-    btn.className='game-btn';
-    btn.innerHTML=`<img src="${game.cover}" alt="${game.name}"><div>${game.name}</div>`;
-    btn.onclick = ()=>{
-      overlay.style.display='block';
-      fetch(game.url)
-        .then(res=>res.text())
-        .then(html=>{ overlayFrame.srcdoc = html; });
-    };
-    gameContainer.appendChild(btn);
-  });
+.then(res => res.json())
+.then(data => {
+    data.forEach(game => {
+        const btn = document.createElement('div');
+        btn.className='game-btn';
+        btn.innerHTML=`<img src="${game.cover}" alt="${game.name}"><div>${game.name}</div>`;
+        btn.onclick = () => {
+            overlay.style.display='block';
+            fetch(game.url)
+                .then(res=>res.text())
+                .then(html=>{ overlayFrame.srcdoc=html; });
+        };
+        gameContainer.appendChild(btn);
+    });
 });
 
-// Game search filter
-const gameSearch = document.getElementById('gameSearch');
-gameSearch.addEventListener('input', ()=>{
-  const filter = gameSearch.value.toLowerCase();
-  document.querySelectorAll('.game-btn').forEach(game=>{
-    game.style.display = game.textContent.toLowerCase().includes(filter)?'block':'none';
-  });
+// Game search
+document.getElementById('gameSearch').addEventListener('input', e => {
+    const filter = e.target.value.toLowerCase();
+    document.querySelectorAll('.game-btn').forEach(g=>{
+        g.style.display = g.textContent.toLowerCase().includes(filter)?'block':'none';
+    });
 });
 
-// Browser proxy
-const searchButton = document.getElementById('searchButton');
-const urlInput = document.getElementById('urlInput');
-searchButton.onclick = ()=>{
-  const query = encodeURIComponent(urlInput.value);
-  // Startpage proxy URL
-  const proxyUrl = `https://www.startpage.com/sp/search?q=${query}&cat=web&cmd=process`;
-  overlayFrame.src = proxyUrl;
-  overlay.style.display='block';
+// Browser search using proxy
+document.getElementById('searchButton').onclick = () => {
+    const query = encodeURIComponent(document.getElementById('urlInput').value);
+    // Proxy URL for full-page overlay
+    const proxyUrl = `https://www.startpage.com/sp/search?q=${query}&cat=web&cmd=process`;
+    overlayFrame.src = proxyUrl;
+    overlay.style.display='block';
 };
-</script>
 
+</script>
 </body>
 </html>
-
