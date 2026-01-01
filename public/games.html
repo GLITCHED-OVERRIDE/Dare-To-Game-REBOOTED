@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Games</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+  margin: 0;
+  background: black;
+  color: red;
+  font-family: monospace;
+}
+
+header {
+  text-align: center;
+  font-size: 32px;
+  padding: 20px;
+  border-bottom: 2px solid red;
+}
+
+#games {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+.game {
+  border: 2px solid red;
+  background: black;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.game:hover {
+  box-shadow: 0 0 20px red;
+}
+
+.game img {
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+}
+
+.game span {
+  display: block;
+  text-align: center;
+  padding: 10px;
+}
+
+iframe {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: black;
+  z-index: 999;
+}
+</style>
+</head>
+
+<body>
+<header>SELECT A GAME</header>
+<div id="games"></div>
+
+<script>
+const jsonURL = "https://raw.githubusercontent.com/GLITCHED-OVERRIDE/Hypper-Drive-2/refs/heads/main/Games/Zones.json";
+const container = document.getElementById("games");
+
+fetch(jsonURL)
+  .then(r => r.json())
+  .then(data => {
+    data.forEach(game => {
+      const div = document.createElement("div");
+      div.className = "game";
+
+      div.innerHTML = `
+        <img src="${game.cover}">
+        <span>${game.name}</span>
+      `;
+
+      div.onclick = async () => {
+        const html = await fetch(game.url).then(r => r.text());
+
+        const iframe = document.createElement("iframe");
+        iframe.srcdoc = html;
+        document.body.appendChild(iframe);
+      };
+
+      container.appendChild(div);
+    });
+  });
+</script>
+</body>
+</html>
