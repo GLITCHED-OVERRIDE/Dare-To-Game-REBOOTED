@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Rubik+Glitch&family=Luckiest+Guy&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Rubik+Glitch&display=swap');
 
 body {
   margin: 0;
@@ -20,44 +20,58 @@ body {
   overflow: hidden;
 }
 
+/* ===== MAIN TITLE ===== */
 .title {
   font-family: 'Luckiest Guy', cursive;
-  font-size: 72px;
+  font-size: clamp(96px, 10vw, 160px);
+  letter-spacing: 4px;
+  text-align: center;
+  line-height: 1;
+  margin: 0;
+
   color: #ff0000;
   text-shadow:
-    0 0 10px red,
-    0 0 25px red,
-    0 0 50px red;
+    0 0 8px rgba(255,0,0,0.8),
+    0 0 20px rgba(255,0,0,0.8),
+    0 0 45px rgba(255,0,0,0.9);
 }
 
+/* ===== SUBTITLE ===== */
 .subtitle {
   font-family: 'Rubik Glitch', cursive;
-  font-size: 42px;
+  font-size: clamp(42px, 5vw, 64px);
+  margin-top: 12px;
+  margin-bottom: 70px;
+
   transform: rotate(-35deg);
-  margin-top: -10px;
-  margin-bottom: 60px;
-  text-shadow: 0 0 15px red;
+  transform-origin: center;
+  text-align: center;
+
+  text-shadow:
+    0 0 10px red,
+    0 0 25px red;
 }
 
+/* ===== BUTTONS ===== */
 .buttons {
   display: flex;
-  gap: 30px;
+  gap: 40px;
 }
 
 .btn {
-  padding: 18px 40px;
+  padding: 18px 48px;
   font-size: 22px;
   font-family: monospace;
   background: black;
   color: red;
   border: 2px solid red;
   cursor: pointer;
-  transition: 0.25s;
+  transition: 0.25s ease;
 }
 
 .btn:hover {
   box-shadow: 0 0 20px red;
-  transform: scale(1.05);
+  transform: scale(1.06);
 }
 </style>
 </head>
