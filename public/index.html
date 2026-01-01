@@ -65,6 +65,8 @@
         width: 100%;
         height: 100vh;
         overflow: auto;
+        background-color: black;
+        color: red;
     }
 
     /* Games Page */
@@ -108,8 +110,6 @@
 
     /* Browser Page */
     #browserPage {
-        background-color: black;
-        color: red;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -137,6 +137,7 @@
         cursor: pointer;
     }
 
+    /* Proxy Overlay */
     #browserOverlay {
         position: fixed;
         top: 0;
@@ -186,7 +187,6 @@
     const browserBtn = document.getElementById('browserBtn');
     const gamesPage = document.getElementById('gamesPage');
     const browserPage = document.getElementById('browserPage');
-    const gameContainer = document.getElementById('gameContainer');
 
     gamesBtn.addEventListener('click', () => {
         gamesPage.style.display = 'block';
@@ -199,6 +199,7 @@
     });
 
     // Fetch Games JSON
+    const gameContainer = document.getElementById('gameContainer');
     fetch('https://raw.githubusercontent.com/GLITCHED-OVERRIDE/Hypper-Drive-2/refs/heads/main/Games/Zones.json')
         .then(res => res.json())
         .then(data => {
@@ -207,10 +208,12 @@
                 btn.className = 'game-btn';
                 btn.innerHTML = `<img src="${game.cover}" alt="${game.name}"><div>${game.name}</div>`;
                 btn.addEventListener('click', () => {
+                    const gameWindow = window.open('', '_blank');
                     fetch(game.url)
                         .then(res => res.text())
                         .then(html => {
-                            document.body.innerHTML = html;
+                            gameWindow.document.write(html);
+                            gameWindow.document.close();
                         });
                 });
                 gameContainer.appendChild(btn);
@@ -228,7 +231,7 @@
         });
     });
 
-    // Browser search functionality using Startpage
+    // Browser search functionality using Startpage proxy
     const searchButton = document.getElementById('searchButton');
     const urlInput = document.getElementById('urlInput');
     const browserOverlay = document.getElementById('browserOverlay');
@@ -236,12 +239,13 @@
 
     searchButton.addEventListener('click', () => {
         const query = encodeURIComponent(urlInput.value);
+        // Use Startpage search page in iframe proxy
         const proxyUrl = `https://www.startpage.com/sp/search?q=${query}&cat=web&cmd=process`;
         iframeWindow.src = proxyUrl;
         browserOverlay.style.display = 'block';
     });
 
-    // Hide overlay on click outside
+    // Hide overlay on clicking outside iframe
     browserOverlay.addEventListener('click', (e) => {
         if(e.target === browserOverlay){
             browserOverlay.style.display = 'none';
